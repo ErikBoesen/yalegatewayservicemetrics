@@ -19,7 +19,7 @@ class YaleGatewayServiceMetrics:
             'apikey': self.api_key,
             'environment': 'Production',
         })
-        request = requests.get(self.API_TARGET, params=params, headers={'Accept': 'application/json')
+        request = requests.get(self.API_TARGET, params=params, headers={'Accept': 'application/json'})
         if request.ok:
             return request.json()
         else:
@@ -29,6 +29,7 @@ class YaleGatewayServiceMetrics:
     def service_name(self):
         return self.get({
             'type': 'servicename',
+            'service': 'Courses',
         })
 
     def test(self):
