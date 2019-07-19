@@ -24,7 +24,7 @@ class YaleGatewayServiceMetrics:
                                params=params,
                                headers={'Accept': 'application/json'})
         if request.ok:
-            return request.json()['ServiceMetrics']
+            return request.json()['ServiceMetrics']['Record']
         else:
             # TODO: Can we be more helpful?
             raise Exception('API request failed. Data returned: ' + request.text)
@@ -39,7 +39,10 @@ class YaleGatewayServiceMetrics:
         return self.get({
             'type': 'servicename',
             'service': service_name,
-        })['Record']
+        })['request_url']
+
+    def endpoint(self, service_name):
+        return self.API_PATH + self.request_url(service_name)
 
     def test(self):
         return self.get({
