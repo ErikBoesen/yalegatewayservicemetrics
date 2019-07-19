@@ -30,22 +30,40 @@ class YaleGatewayServiceMetrics:
             raise Exception('API request failed. Data returned: ' + request.text)
 
     def service_name(self, request_url):
+        """
+        Get the name of a service given its URL endpoint.
+        """
         return self.get({
             'type': 'servicename',
             'requesturl': request_url,
-        })
+        })['service_name']
 
     def request_url(self, service_name):
+        """
+        Get the path to a service from the API root.
+        You may want to use `endpoint` instead to get the API's full endpoint URL.
+        """
         return self.get({
             'type': 'servicename',
             'service': service_name,
         })['request_url']
 
     def endpoint(self, service_name):
+        """
+        Get the full URL endpoint of an API given its name.
+        """
         return self.API_PATH + self.request_url(service_name)
 
-    def test(self):
-        return self.get({
+    def summary(self, service_name, user=None, average=False):
+        raw = self.get({
             'type': 'summary',
-            'service': 'EnergyData',
+            'service': service_name,
+            'user': '',
+            'startdate': '2002-02-03',
+            'todate': '2004-07-10',
         })
+        if average:
+            user = 'Average All Users'
+        if user:
+            return next(item for item in raw if item['user'] == user)
+        return raw
