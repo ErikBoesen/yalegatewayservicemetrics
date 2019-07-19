@@ -4,7 +4,9 @@ import re
 
 
 class YaleGatewayServiceMetrics:
-    API_TARGET = 'https://gw.its.yale.edu/soa-gateway/Metrics/GatewayServiceMetrics'
+    API_PATH = 'https://gw.its.yale.edu'
+    ENDPOINT = '/soa-gateway/Metrics/GatewayServiceMetrics'
+
 
     def __init__(self, api_key: str):
         self.api_key = api_key
@@ -21,7 +23,7 @@ class YaleGatewayServiceMetrics:
         })
         request = requests.get(self.API_TARGET, params=params, headers={'Accept': 'application/json'})
         if request.ok:
-            return request.json()
+            return request.json()['ServiceMetrics']
         else:
             # TODO: Can we be more helpful?
             raise Exception('API request failed. Data returned: ' + request.text)
@@ -33,7 +35,10 @@ class YaleGatewayServiceMetrics:
         })
 
     def request_url(self, service_name):
-
+        return self.get({
+            'type': 'servicename',
+            'service': service_name,
+        })['Record']
 
     def test(self):
         return self.get({
