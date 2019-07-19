@@ -26,14 +26,17 @@ class YaleGatewayServiceMetrics:
             # TODO: Can we be more helpful?
             raise Exception('API request failed. Data returned: ' + request.text)
 
-    def service_name(self):
+    def service_name(self, request_url):
         return self.get({
             'type': 'servicename',
-            'service': 'Courses',
+            'requesturl': request_url,
         })
+
+    def request_url(self, service_name):
+
 
     def test(self):
         return self.get({
-            'type': 'detail',
-
+            'type': 'summary',
+            'service': 'EnergyData',
         })
