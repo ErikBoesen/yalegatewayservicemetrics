@@ -7,7 +7,6 @@ class YaleGatewayServiceMetrics:
     API_PATH = 'https://gw.its.yale.edu'
     ENDPOINT = '/soa-gateway/Metrics/GatewayServiceMetrics'
 
-
     def __init__(self, api_key: str):
         self.api_key = api_key
 
@@ -21,7 +20,9 @@ class YaleGatewayServiceMetrics:
             'apikey': self.api_key,
             'environment': 'Production',
         })
-        request = requests.get(self.API_TARGET, params=params, headers={'Accept': 'application/json'})
+        request = requests.get(self.API_PATH + self.ENDPOINT,
+                               params=params,
+                               headers={'Accept': 'application/json'})
         if request.ok:
             return request.json()['ServiceMetrics']
         else:
