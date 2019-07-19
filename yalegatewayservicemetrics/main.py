@@ -58,9 +58,10 @@ class YaleGatewayServiceMetrics:
         raw = self.get({
             'type': 'summary',
             'service': service_name,
-            'user': '',
-            'startdate': '2002-02-03',
-            'todate': '2004-07-10',
+            'user': None,
+            # These parameters do not appear to actually do anything at all.
+            'startdate': '2000-01-01',
+            'todate': '2000-01-01',
         })
         if average:
             user = 'Average All Users'
