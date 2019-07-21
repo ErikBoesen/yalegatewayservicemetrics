@@ -8,6 +8,9 @@ class Service:
         self.name = name
         self.request_url = request_url
 
+    def __repr__(self):
+        return self.__class__.__name__ + f'(name={self.name}, request_url={self.request_url})'
+
     def summary(self, service_name, user=None, average=False):
         raw = self.get({
             'type': 'summary',
