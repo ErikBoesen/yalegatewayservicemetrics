@@ -11,4 +11,4 @@ print(api.request_url('EnergyData'))
 print(api.endpoint('EnergyData'))
 pprint(api.summary('Laundry-school'))
 """
-print(api.service('Laundry-school'))
+print(api.service('Laundry-school').records())

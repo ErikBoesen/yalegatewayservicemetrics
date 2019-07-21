@@ -11,10 +11,10 @@ class Service:
     def __repr__(self):
         return self.__class__.__name__ + f'(name={self.name}, request_url={self.request_url})'
 
-    def summary(self, service_name, user=None, average=False):
-        raw = self.get({
+    def records(self, user=None, average=False):
+        raw = self._api.get({
             'type': 'summary',
-            'service': service_name,
+            'service': self.name,
             # This doesn't do anything, but pass it anyway in case that changes
             'user': user,
             # These parameters do not appear to actually do anything, but they have to be here.
