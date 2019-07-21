@@ -3,7 +3,8 @@ import re
 
 
 class Service:
-    def __init__(self, name, request_url):
+    def __init__(self, _api, name, request_url):
+        self._api = _api
         self.name = name
         self.request_url = request_url
 
@@ -51,6 +52,12 @@ class API:
             # TODO: Can we be more helpful?
             raise Exception('API request failed. Data returned: ' + request.text)
 
+    def endpoint(self, service_name):
+        """
+        Get the full URL endpoint of an API given its name.
+        """
+        return self.API_PATH + self.request_url(service_name)
+
     def service_name(self, request_url):
         """
         Get the name of a service given its URL endpoint.
@@ -70,9 +77,14 @@ class API:
             'service': service_name,
         })['request_url']
 
-    def endpoint(self, service_name):
+    def service(self, identifier):
         """
-        Get the full URL endpoint of an API given its name.
+        Initialize a service that you'd like to get data on.
         """
-        return self.API_PATH + self.request_url(service_name)
-
+        payload = {
+            'type': 'servicename',
+            # Add requesturl or name to payload
+            'requesturl' if '/' in identifier else 'service': identifier
+        }
+        response = self.get(payload)
+        return Service(self, response['service_name'], response['request_url'])
