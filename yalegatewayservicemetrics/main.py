@@ -58,13 +58,16 @@ class YaleGatewayServiceMetrics:
         raw = self.get({
             'type': 'summary',
             'service': service_name,
-            'user': None,
-            # These parameters do not appear to actually do anything at all.
-            'startdate': '2000-01-01',
-            'todate': '2000-01-01',
+            # This doesn't do anything, but pass it anyway in case that changes
+            'user': user,
+            # These parameters do not appear to actually do anything, but they have to be here.
+            'startdate': '1950-01-01',
+            'todate': '3000-01-01',
         })
         if average:
             user = 'Average All Users'
+        # Compensate for the user parameter not being respected
         if user:
             return next(item for item in raw if item['user'] == user)
         return raw
+
