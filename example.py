@@ -3,7 +3,7 @@ import os
 from pprint import pprint
 
 # "api" name can be whatever is most convenient for your program
-api = yalegatewayservicemetrics.YaleGatewayServiceMetrics(os.environ['YALE_API_KEY'])
+api = yalegatewayservicemetrics.API(os.environ['YALE_API_KEY'])
 
 """
 print(api.service_name('/soa-gateway/energy/data'))

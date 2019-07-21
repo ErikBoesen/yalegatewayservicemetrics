@@ -2,8 +2,30 @@ import requests
 import re
 
 
+class Service:
+    def __init__(self, name, request_url):
+        self.name = name
+        self.request_url = request_url
 
-class YaleGatewayServiceMetrics:
+    def summary(self, service_name, user=None, average=False):
+        raw = self.get({
+            'type': 'summary',
+            'service': service_name,
+            # This doesn't do anything, but pass it anyway in case that changes
+            'user': user,
+            # These parameters do not appear to actually do anything, but they have to be here.
+            'startdate': '1950-01-01',
+            'todate': '3000-01-01',
+        })
+        if average:
+            user = 'Average All Users'
+        # Compensate for the user parameter not being respected
+        if user:
+            return next(item for item in raw if item['user'] == user)
+        return raw
+
+
+class API:
     API_PATH = 'https://gw.its.yale.edu'
     ENDPOINT = '/soa-gateway/Metrics/GatewayServiceMetrics'
 
@@ -53,21 +75,4 @@ class YaleGatewayServiceMetrics:
         Get the full URL endpoint of an API given its name.
         """
         return self.API_PATH + self.request_url(service_name)
-
-    def summary(self, service_name, user=None, average=False):
-        raw = self.get({
-            'type': 'summary',
-            'service': service_name,
-            # This doesn't do anything, but pass it anyway in case that changes
-            'user': user,
-            # These parameters do not appear to actually do anything, but they have to be here.
-            'startdate': '1950-01-01',
-            'todate': '3000-01-01',
-        })
-        if average:
-            user = 'Average All Users'
-        # Compensate for the user parameter not being respected
-        if user:
-            return next(item for item in raw if item['user'] == user)
-        return raw
 
