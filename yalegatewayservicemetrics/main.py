@@ -23,7 +23,7 @@ class Service:
 
     def _records(self,
                  request_type,
-                 start_date=None,
+                 start_date='1950-01-01',
                  to_date=datetime.date.today(),
                  user=None,
                  average=False):
@@ -35,8 +35,8 @@ class Service:
             # This doesn't do anything, but pass it anyway in case that changes
             'user': user,
             # These parameters do not appear to actually do anything, but they have to be here.
-            'startdate': '2019-07-05',
-            'todate': '2019-07-21',
+            'startdate': start_date,
+            'todate': to_date,
         })
         if average:
             user = 'Average All Users'
