@@ -27,11 +27,11 @@ class Service:
             return next(item for item in raw if item['user'] == user)
         return raw
 
-    def summary(self, user=None, average=False):
-        return self._records('summary', user, average)
+    def summary(self, **kwargs):
+        return self._records('summary', **kwargs)
 
-    def detail(self, user=None, average=False):
-        return self._records('detail', user, average)
+    def detail(self, **kwargs):
+        return self._records('detail', **kwargs)
 
 class API:
     API_PATH = 'https://gw.its.yale.edu'
