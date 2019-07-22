@@ -75,7 +75,7 @@ class API:
             return request.json()['ServiceMetrics']['Record']
         else:
             # TODO: Can we be more helpful?
-            raise Exception('API request failed. Data returned: ' + request.text)
+            raise Exception(f'API request failed with status {request.status_code}. Data returned: {request.text}')
 
     def endpoint(self, service_name):
         """

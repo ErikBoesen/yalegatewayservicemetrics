@@ -5,9 +5,12 @@ from pprint import pprint
 # 'api' name can be whatever is most convenient for your program
 api = yalegatewayservicemetrics.API(os.environ['YALE_API_KEY'])
 
+print('Requesting an invalid service:')
+service = api.service('An API that doesn\'t exist')
+print(service.summary())
 print('Getting summary records:')
 service = api.service('Laundry-school')
-print(service.summary())
+print(service.summary(user=os.environ['YALE_API_KEY']))
 print('Getting detailed records:')
 print(len(service.detail()))
 print('Let\'s start with a few helper methods...')
