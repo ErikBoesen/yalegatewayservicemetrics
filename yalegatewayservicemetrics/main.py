@@ -42,7 +42,7 @@ class Service:
             user = 'Average All Users'
         # Compensate for the user parameter not being respected
         if user:
-            return next(item for item in raw if item['user'] == user)
+            return [item for item in raw if item['user'] == user]
         return raw
 
     def summary(self, **kwargs):
