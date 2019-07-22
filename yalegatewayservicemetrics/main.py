@@ -105,11 +105,17 @@ class API:
             'service': service_name,
         })['request_url']
 
-    def service(self, name):
+    def service(self, name, verify=True):
         """
         Initialize a service that you'd like to get data on.
+        :param name: name of service
         """
-        if '/' in name:
-            # It's a URL, so convert to name
-            name = self.service_name(name)
+        try:
+            if '/' in name:
+                # It's a URL, so convert to name
+                name = self.service_name(name)
+            elif verify:
+                self.request_url(name)
+        except:
+            raise Exception(name + ' not a recognized identifier.')
         return Service(self, name)
