@@ -3,13 +3,12 @@ import re
 
 
 class Service:
-    def __init__(self, _api, name, request_url):
+    def __init__(self, _api, name):
         self._api = _api
         self.name = name
-        self.request_url = request_url
 
     def __repr__(self):
-        return self.__class__.__name__ + f'(name={self.name}, request_url={self.request_url})'
+        return self.__class__.__name__ + '(' + self.name + ')'
 
     def records(self, user=None, average=False):
         raw = self._api.get({
@@ -80,14 +79,11 @@ class API:
             'service': service_name,
         })['request_url']
 
-    def service(self, identifier):
+    def service(self, name):
         """
         Initialize a service that you'd like to get data on.
         """
-        payload = {
-            'type': 'servicename',
-            # Add requesturl or name to payload
-            'requesturl' if '/' in identifier else 'service': identifier
-        }
-        response = self.get(payload)
-        return Service(self, response['service_name'], response['request_url'])
+        if '/' in name:
+            # It's a URL, so convert to name
+            name = self.service_name(name)
+        return Service(self, name)
