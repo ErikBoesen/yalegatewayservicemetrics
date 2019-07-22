@@ -1,5 +1,6 @@
 import requests
 import re
+import datetime
 
 
 class Service:
@@ -10,7 +11,24 @@ class Service:
     def __repr__(self):
         return self.__class__.__name__ + '(' + self.name + ')'
 
-    def _records(self, request_type, user=None, average=False):
+    def _format(self, date):
+        return date.strftime('%Y-%m-%d')
+
+    def _date(self, raw):
+        if type(raw) == str:
+            # TODO: should we check that the format is correct?
+            return raw
+        if type(raw) in (datetime.datetime, datetime.date):
+            return self._format(raw)
+
+    def _records(self,
+                 request_type,
+                 start_date=None,
+                 to_date=datetime.date.today(),
+                 user=None,
+                 average=False):
+        start_date = self._date(start_date)
+        end_date = self._date(start_date)
         raw = self._api.get({
             'type': request_type,
             'service': self.name,
