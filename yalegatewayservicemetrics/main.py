@@ -10,15 +10,15 @@ class Service:
     def __repr__(self):
         return self.__class__.__name__ + '(' + self.name + ')'
 
-    def records(self, user=None, average=False):
+    def _records(self, request_type, user=None, average=False):
         raw = self._api.get({
-            'type': 'summary',
+            'type': request_type,
             'service': self.name,
             # This doesn't do anything, but pass it anyway in case that changes
             'user': user,
             # These parameters do not appear to actually do anything, but they have to be here.
-            'startdate': '1950-01-01',
-            'todate': '3000-01-01',
+            'startdate': '2019-07-05',
+            'todate': '2019-07-21',
         })
         if average:
             user = 'Average All Users'
@@ -27,6 +27,11 @@ class Service:
             return next(item for item in raw if item['user'] == user)
         return raw
 
+    def summary(self, user=None, average=False):
+        return self._records('summary', user, average)
+
+    def detail(self, user=None, average=False):
+        return self._records('detail', user, average)
 
 class API:
     API_PATH = 'https://gw.its.yale.edu'
