@@ -5,11 +5,12 @@ from pprint import pprint
 # 'api' name can be whatever is most convenient for your program
 api = yalegatewayservicemetrics.API(os.environ['YALE_API_KEY'])
 
-print('Requesting an invalid service:')
+print('Requesting an invalid service name, should be None:')
 print(api.service_name('aoisdiasd'))
 print('Requesting a valid service:')
 service = api.service('Laundry-room')
-print(service.detail(start_date='2000-01-01', to_date='2000-01-02'))
+print('Getting that service\'s usage over a long range of time:')
+print(service.detail(start_date='2010-01-01', to_date='2019-01-02'))
 print('Getting summary records:')
 service = api.service('Laundry-school')
 print(service.summary(user=os.environ['YALE_API_KEY']))
