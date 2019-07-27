@@ -90,20 +90,24 @@ class API:
         """
         Get the name of a service given its URL endpoint.
         """
-        return self.get({
+        data = self.get({
             'type': 'servicename',
             'requesturl': request_url,
-        })['service_name']
+        })
+        if data:
+            return data['service_name']
 
     def request_url(self, service_name):
         """
         Get the path to a service from the API root.
         You may want to use `endpoint` instead to get the API's full endpoint URL.
         """
-        return self.get({
+        data = self.get({
             'type': 'servicename',
             'service': service_name,
-        })['request_url']
+        })
+        if data:
+            return data['request_url']
 
     def service(self, name, verify=True):
         """
